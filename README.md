@@ -1,51 +1,52 @@
-# Node.js TypeScript Template
+# Fastify JWT app (TypeORM, Postgresql)
 
-This is a template repository for Node.js projects written in TypeScript. It provides a structured starting point for building Node.js applications with TypeScript support, including configuration for linting, testing, automatic releases, dependency updates, and more.
+Node.js project demonstrating the integration of Fastify, Fastify JWT, and TypeORM with PostgreSQL for building a robust API.
 
 ## Features
 
--   **Project Structure**: Organized file structure from `src` directory for source files to `server.ts`.
--   **Testing Support**: Integrated testing setup with a dedicated `test` directory.
--   **Linting with ESLint**: Includes ESLint configuration for code linting.
--   **Semantic Releases**: Automated versioning and release notes generation using semantic versioning.
--   **Dependabot**: Automatic dependency updates through GitHub Dependabot.
--   **Node Workflow**: GitHub Actions workflow for Node.js testing on push and pull requests.
+-   Utilizes Fastify for blazing-fast web server development.
+-   Implements JWT-based authentication with Fastify JWT.
+-   Integrates TypeORM for seamless interaction with a PostgreSQL database.
+-   Provides CRUD operations for managing resources.
 
-## Usage
+## Prerequisites
 
-To use this template for your project:
-
-1. Click on the "Use this template" button at the top of the repository to create a new repository based on this template.
-2. Clone your newly created repository to your local machine.
-3. Customize the project according to your requirements.
-4. Start developing your Node.js application!
+-   Node.js installed on your machine
+-   PostgreSQL installed locally or accessible remotely
+-   Git for cloning the repository
 
 ## Getting Started
 
-Follow these steps to get your development environment set up:
-
-1. Install dependencies:
+1. Clone the repository:
 
     ```bash
+    git clone <repository-url>
+    ```
+
+2. Install dependencies:
+
+    ```bash
+    cd <project-folder>
     npm install
     ```
 
-2. Run linting:
-
+3. Set up environment variables:
     ```bash
-    npm run lint
+     DATABASE_USER=your_db_user
+     DATABASE_HOST=your_db_host
+     DATABASE_PASSWORD=your_db_pass
+     DATABASE_NAME=your_db_name
+     DATABASE_PORT=your_db_port
     ```
+4. Run the application:
+   `npm start`
 
-3. Run tests:
+## API Endpoints
 
-    ```bash
-    npm test
-    ```
-
-4. Start the server:
-    ```bash
-    npm start
-    ```
+-   **POST /register**: Register a new user.
+-   **POST /login**: Authenticate and generate JWT token.
+-   **GET /profile**: Get user profile (requires authentication).
+-   **POST /logout**: Invalidate current JWT token (requires authentication).
 
 ## Contributing
 
