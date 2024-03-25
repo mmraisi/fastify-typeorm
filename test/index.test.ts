@@ -1,6 +1,12 @@
-import { test } from "node:test";
-import assert from "node:assert";
+import "reflect-metadata";
+import dotenv from "dotenv";
+dotenv.config();
+import { assert, describe, it } from "vitest";
+import { start } from "../src";
 
-test("test index", () => {
-	assert.ok(true);
+describe("Start Function", () => {
+	it("should start the application without errors", async () => {
+		await start();
+		assert(true, "Application started successfully");
+	});
 });
