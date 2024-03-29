@@ -1,0 +1,26 @@
+version: "3.8"
+
+x-env: &env
+    environment:
+        POSTGRES_USER: ${POSTGRES_USER:-user}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+        POSTGRES_HOST: ${POSTGRES_HOST:-postgres}
+
+services:
+    postgres:
+        <<: *env
+        image: postgres
+        volumes:
+            - ./postgres/data:/var/lib/postgresql/data
+            - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+        ports:
+            - "5432:5432"
+        networks:
+            - postgres
+        stop_grace_period: 1s
+networks:
+    postgres:
+        driver: bridge
+
+volumes:
+    postgres:

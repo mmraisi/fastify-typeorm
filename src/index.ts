@@ -1,12 +1,10 @@
-import "reflect-metadata";
-import dotenv from "dotenv";
-dotenv.config();
+import { start } from "./app";
 
-import { initializeDB } from "./database/data-source";
-
-const start = async () => {
-	await initializeDB();
-};
-start();
-
-export { start };
+(async () => {
+	try {
+		await start();
+	} catch (error) {
+		console.error(error);
+		process.exit(1);
+	}
+})();

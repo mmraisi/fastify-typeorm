@@ -8,11 +8,11 @@ const initializeDB = async () => {
 	try {
 		db = new DataSource({
 			type: "postgres",
-			host: process.env.DATABASE_HOST,
-			port: (process.env.DATABASE_PORT ?? 5432) as number,
-			username: process.env.DATABASE_USER,
-			password: process.env.DATABASE_PASSWORD,
-			database: process.env.DATABASE_NAME,
+			host: process.env.POSTGRES_HOST ?? "localhost",
+			port: (process.env.POSTGRES_PORT ?? 5432) as number,
+			username: process.env.POSTGRES_USER,
+			password: process.env.POSTGRES_PASSWORD,
+			database: process.env.POSTGRES_HOST,
 			synchronize: true,
 			logging: false,
 			entities: [User],
