@@ -10,6 +10,13 @@ stop: ## Stop and remove all containers forcefully
 	@docker compose down --volumes
 	@docker volume ls
 
+
+db:
+	@docker compose up postgres
+	@sleep 5
+
+
+
 clean: stop ## remove running containers, volumes, node_modules & anything else
 	@rm -rf node_modules coverage dist
 

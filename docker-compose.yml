@@ -2,9 +2,9 @@ version: "3.8"
 
 x-env: &env
     environment:
-        POSTGRES_USER: user1
-        POSTGRES_PASSWORD: password
-        POSTGRES_HOST: postgres
+        POSTGRES_USER: ${DB_USER:-user}
+        POSTGRES_PASSWORD: ${DB_PASSWORD:-user}
+        POSTGRES_HOST: ${DB_HOST:-postgres}
 
 services:
     postgres:
