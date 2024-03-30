@@ -1,12 +1,11 @@
-# Fastify JWT app (TypeORM, Postgresql)
+# Fastify JWT app
 
-Node.js project demonstrating the integration of Fastify, Fastify JWT, and TypeORM with PostgreSQL for building a robust API.
+Node.js project demonstrating the integration of Fastify, and Fastify JWT with PostgreSQL for building a robust API.
 
 ## Features
 
 -   Utilizes Fastify for blazing-fast web server development.
 -   Implements JWT-based authentication with Fastify JWT.
--   Integrates TypeORM for seamless interaction with a PostgreSQL database.
 -   Provides CRUD operations for managing resources.
 
 ## Prerequisites
@@ -30,23 +29,8 @@ Node.js project demonstrating the integration of Fastify, Fastify JWT, and TypeO
     npm install
     ```
 
-3. Set up environment variables:
-    ```bash
-     DATABASE_USER=your_db_user
-     DATABASE_HOST=your_db_host
-     DATABASE_PASSWORD=your_db_pass
-     DATABASE_NAME=your_db_name
-     DATABASE_PORT=your_db_port
-    ```
-4. Run the application:
+3. Run the application:
    `npm start`
-
-## API Endpoints
-
--   **POST /register**: Register a new user.
--   **POST /login**: Authenticate and generate JWT token.
--   **GET /profile**: Get user profile (requires authentication).
--   **POST /logout**: Invalidate current JWT token (requires authentication).
 
 ## Contributing
 

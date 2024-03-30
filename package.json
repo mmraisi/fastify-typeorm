@@ -21,7 +21,6 @@
 		"test:ci": "npm run lint && vitest . --coverage  --watch=false"
 	},
 	"keywords": [
-		"typeorm",
 		"orm",
 		"jwt",
 		"fastify",
@@ -35,8 +34,7 @@
 		"fastify": "^4.26.2",
 		"oas-fastify": "^3.1.0",
 		"pg": "^8.4.0",
-		"reflect-metadata": "^0.1.14",
-		"typeorm": "0.3.20"
+		"reflect-metadata": "^0.1.14"
 	},
 	"devDependencies": {
 		"@semantic-release/github": "^10.0.2",
