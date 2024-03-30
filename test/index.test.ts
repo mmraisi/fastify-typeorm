@@ -1,8 +1,5 @@
-import "reflect-metadata";
-import dotenv from "dotenv";
-dotenv.config();
 import { assert, describe, it } from "vitest";
-import { start } from "../src";
+import { start } from "../src/app";
 
 describe("Start Function", () => {
 	it("should start the application without errors", async () => {

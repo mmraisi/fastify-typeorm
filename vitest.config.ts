@@ -5,7 +5,7 @@ export default defineConfig({
 	test: {
 		coverage: {
 			provider: "v8",
-			exclude: ["src/database"],
+			exclude: ["**/*/data", "**/*/schema"],
 			include: ["src"],
 		},
 		setupFiles: ["dotenv/config"],

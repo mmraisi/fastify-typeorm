@@ -1,7 +1,17 @@
-import "reflect-metadata";
 import dotenv from "dotenv";
 dotenv.config();
 
-const start = async () => {};
+import { DB } from "./database/db";
+import { updateDB } from "./database/update";
+import { populateDB } from "./database/populate";
 
-export { start };
+let db: DB;
+
+const start = async () => {
+	db = new DB();
+
+	await updateDB(); // update db with schemas
+	await populateDB(); // populate db with data
+};
+
+export { start, db };
