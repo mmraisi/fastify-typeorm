@@ -1,1 +1,1 @@
-CREATE DATABASE my_db;
+CREATE DATABASE localdb;
