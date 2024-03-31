@@ -7,15 +7,17 @@
 
 
 stop: ## Stop and remove all containers forcefully
-	@docker compose down --volumes
-	@docker volume ls
+	@docker compose down --remove-orphans
 
 
-db:
+db: ## create a db
 	@docker compose up postgres
 	@sleep 5
 
-
+db-migration: ## creates a new migration file using TypeORM
+	@echo "Enter migration file name: "; \
+    read FILENAME; \
+    npx typeorm migration:create ./src/database/migrations/$$FILENAME
 
 clean: stop ## remove running containers, volumes, node_modules & anything else
 	@rm -rf node_modules coverage dist

@@ -2,6 +2,7 @@ version: "3.8"
 
 x-env: &env
     environment:
+        NODE_ENV: ${NODE_ENV:-development}
         POSTGRES_USER: ${DB_USER:-user}
         POSTGRES_PASSWORD: ${DB_PASSWORD:-user}
         POSTGRES_HOST: ${DB_HOST:-postgres}
