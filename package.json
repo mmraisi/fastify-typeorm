@@ -28,7 +28,7 @@
 	],
 	"license": "MIT",
 	"dependencies": {
-		"@fastify/static": "^5.0.0",
+		"@fastify/static": "^7.0.2",
 		"@fastify/swagger": "^7.6.1",
 		"dotenv": "^16.4.5",
 		"fastify": "^4.26.2",
