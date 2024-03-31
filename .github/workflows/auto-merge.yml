@@ -2,7 +2,7 @@ name: auto-merge
 
 on:
     pull_request:
-        types: [opened, synchronize]
+        branches: ["main"]
 
 jobs:
     auto-merge:
@@ -12,4 +12,5 @@ jobs:
             - uses: ahmadnassri/action-dependabot-auto-merge@v2
               with:
                   target: minor
+                  approve: true
                   github-token: ${{ secrets.GITHUB_TOKEN }}
