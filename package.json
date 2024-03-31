@@ -1,5 +1,5 @@
 {
-	"name": "node-template-ts",
+	"name": "fastify-typeorm",
 	"version": "1.0.0",
 	"description": "nodejs typescript template",
 	"main": "dist/index.js",
@@ -7,10 +7,10 @@
 	"author": "Mahmoud Mraisi",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/mmraisi/node-template-ts"
+		"url": "https://github.com/mmraisi/fastify-typeorm"
 	},
 	"bugs": {
-		"url": "https://github.com/mmraisi/node-template-ts/issues"
+		"url": "https://github.com/mmraisi/fastify-typeorm/issues"
 	},
 	"scripts": {
 		"lint": "eslint .",
