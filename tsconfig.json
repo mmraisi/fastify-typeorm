@@ -3,6 +3,7 @@
 		"lib": ["es2021"],
 		"target": "es2021",
 		"module": "commonjs",
+		"typeRoots": ["./@types", "node_modules/@types"],
 		"moduleResolution": "node",
 		"checkJs": true,
 		"outDir": "dist",
@@ -21,6 +22,5 @@
 		"experimentalDecorators": true,
 		"sourceMap": true
 	},
-	"exclude": ["node_modules", "docs", "dist", "coverage"],
-	"include": ["src"]
+	"exclude": ["node_modules", "docs", "dist", "coverage"]
 }
