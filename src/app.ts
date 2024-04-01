@@ -34,7 +34,7 @@ const start = async () => {
 			keepAliveTimeout: 5000,
 			ignoreTrailingSlash: false,
 		},
-		// oas does not accept the oas example property without the following option
+		// oas does not accept the oas "example" property without the following option
 		ajv: {
 			customOptions: {
 				strict: false,

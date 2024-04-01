@@ -1,0 +1,27 @@
+openapi: 3.0.3
+
+info:
+    version: 0.0.0-semantically-released
+    title: User API
+    description: API for User login/register
+
+servers:
+    - url: http://{host}:{port}
+      description: local
+      variables:
+          host:
+              default: localhost
+              description: hostname
+          port:
+              default: "8080"
+              description: port number
+
+tags:
+    - name: users
+      description: users endpoints
+
+components:
+    securitySchemes:
+        BearerAuth:
+            type: http
+            scheme: bearer

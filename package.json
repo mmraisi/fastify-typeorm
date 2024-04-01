@@ -2,8 +2,8 @@
 	"name": "fastify-typeorm",
 	"version": "1.0.0",
 	"description": "nodejs typescript template",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"main": "dist/src/index.js",
+	"types": "dist/src/index.d.ts",
 	"author": "Mahmoud Mraisi",
 	"repository": {
 		"type": "git",
@@ -14,7 +14,7 @@
 	},
 	"scripts": {
 		"lint": "eslint .",
-		"start": "ts-node src/index.ts",
+		"start": "node dist/src/index.js",
 		"build": "rm -rf dist && tsc --build",
 		"dev": "nodemon src/index.ts",
 		"test": "npm run lint && vitest . --coverage",
