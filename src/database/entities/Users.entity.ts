@@ -17,9 +17,6 @@ export class Users {
 	@Column("text", { nullable: true })
 	user_password?: string;
 
-	@Column("int", { nullable: true })
-	user_age?: number;
-
 	@CreateDateColumn({ type: "timestamp without time zone", default: () => "CURRENT_TIMESTAMP" })
 	date_created!: Date;
 

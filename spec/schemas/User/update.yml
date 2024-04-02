@@ -1,0 +1,10 @@
+type: object
+
+minProperties: 1
+
+properties:
+    user_first_name:
+        $ref: ./properties/user_first_name.yml
+
+    user_last_name:
+        $ref: ./properties/user_last_name.yml

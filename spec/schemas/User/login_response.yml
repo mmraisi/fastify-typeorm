@@ -1,0 +1,8 @@
+type: object
+
+properties:
+    user_id:
+        $ref: ./properties/user_id.yml
+
+    access_token:
+        $ref: ./properties/access_token.yml

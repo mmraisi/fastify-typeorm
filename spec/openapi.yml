@@ -13,15 +13,21 @@ servers:
               default: localhost
               description: hostname
           port:
-              default: "8080"
+              default: "4000"
               description: port number
 
-tags:
-    - name: users
-      description: users endpoints
+paths:
+    $ref: paths/index.yml
 
 components:
     securitySchemes:
-        BearerAuth:
+        bearerAuth:
             type: http
             scheme: bearer
+
+security:
+    - bearerAuth: []
+
+tags:
+    - name: user
+      description: user actions

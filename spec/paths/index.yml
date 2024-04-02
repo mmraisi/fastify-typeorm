@@ -1,0 +1,14 @@
+/login:
+    post:
+        $ref: users/login.yml
+
+/register:
+    post:
+        $ref: users/register.yml
+
+/users/{user_id}:
+    get:
+        $ref: users/get.yml
+
+    patch:
+        $ref: users/update.yml

@@ -1,0 +1,6 @@
+name: user_id
+in: path
+required: true
+description: The user id
+schema:
+    $ref: ../../schemas/User/properties/user_id.yml

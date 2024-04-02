@@ -1,0 +1,37 @@
+summary: Register a new user
+
+description: >
+    Register a new user.
+
+operationId: register
+
+tags:
+    - user
+
+requestBody:
+    description: User payload to register
+    required: true
+    content:
+        application/json:
+            schema:
+                $ref: ../../schemas/User/create.yml
+
+responses:
+    201:
+        description: Created User object
+        content:
+            application/json:
+                schema:
+                    $ref: ../../schemas/User/read.yml
+
+    400:
+        $ref: ../../responses/400.yml
+
+    401:
+        $ref: ../../responses/401.yml
+
+    404:
+        $ref: ../../responses/404.yml
+
+    500:
+        $ref: ../../responses/500.yml

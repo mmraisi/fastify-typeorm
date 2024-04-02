@@ -1,0 +1,6 @@
+type: string
+nullable: true
+format: date-time
+description: Update date of the record
+example: "2024-04-01T08:18:01.106Z"
+readOnly: true

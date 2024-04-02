@@ -1,0 +1,20 @@
+type: object
+
+properties:
+    user_id:
+        $ref: ./properties/user_id.yml
+
+    user_email:
+        $ref: ./properties/user_email.yml
+
+    user_first_name:
+        $ref: ./properties/user_first_name.yml
+
+    user_last_name:
+        $ref: ./properties/user_last_name.yml
+
+    date_created:
+        $ref: ../Common/properties/date_created.yml
+
+    date_updated:
+        $ref: ../Common/properties/date_updated.yml

@@ -1,0 +1,4 @@
+type: string
+format: uuid
+description: User unique identifier
+example: bf7a7668-7c11-4b3f-8719-739659097e05

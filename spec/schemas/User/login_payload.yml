@@ -1,0 +1,11 @@
+type: object
+
+required:
+    - user_email
+    - user_password
+
+properties:
+    user_email:
+        $ref: ./properties/user_email.yml
+    user_password:
+        $ref: ./properties/user_password.yml
