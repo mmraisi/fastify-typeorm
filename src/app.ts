@@ -25,6 +25,7 @@ const PORT = process.env.PORT ?? 4000;
 export let server: FastifyInstance;
 
 const start = async () => {
+	// initialize db
 	await initializeDB();
 
 	// fastify default options

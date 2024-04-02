@@ -6,7 +6,9 @@ import { db } from "./database/data-srouce";
 		await start();
 	} catch (error) {
 		console.error(error);
-		if (db) {
+		console.log(error instanceof Error);
+
+		if (db?.isInitialized) {
 			await db.destroy();
 		}
 		process.exit(1);
