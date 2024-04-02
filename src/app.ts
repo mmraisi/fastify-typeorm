@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import "reflect-metadata";
-import { db, initializeDB } from "./database/data-srouce";
 import fastify, { FastifyInstance } from "fastify";
 import { join } from "node:path";
 import oas from "oas-fastify";
@@ -25,9 +24,6 @@ const PORT = process.env.PORT ?? 4000;
 export let server: FastifyInstance;
 
 const start = async () => {
-	// initialize db
-	await initializeDB();
-
 	// fastify default options
 	const opts = {
 		logger: true,
@@ -45,7 +41,7 @@ const start = async () => {
 
 	server = fastify({
 		...opts,
-	}).decorate("db", db);
+	});
 
 	// add plugins
 	server.register(autoload, {

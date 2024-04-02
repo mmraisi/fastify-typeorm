@@ -1,5 +1,4 @@
 import { start } from "./app";
-import { db } from "./database/data-srouce";
 
 (async () => {
 	try {
@@ -8,9 +7,6 @@ import { db } from "./database/data-srouce";
 		console.error(error);
 		console.log(error instanceof Error);
 
-		if (db?.isInitialized) {
-			await db.destroy();
-		}
 		process.exit(1);
 	}
 })();
