@@ -5,8 +5,8 @@ export default defineConfig({
   test: {
     coverage: {
       provider: "v8",
-      exclude: ["**/*/data", "**/*/schema", "**/*/index.ts"],
-      include: ["src/routes"],
+      exclude: ["**/*/index.ts"],
+      include: ["src/lib", "src/routes"],
     },
     setupFiles: ["dotenv/config"],
   },
