@@ -1,8 +1,11 @@
 import { test, describe, assert, afterEach } from "vitest";
 import Problem from "api-problem";
 import sinon from "sinon";
-import { buildApiErrorCode, errorHandler } from "../src/lib/error-handler";
-import { buildMockReply } from "./helper/mocks";
+import { buildMockReply } from "../../lib/mocks";
+import {
+  buildApiErrorCode,
+  errorHandler,
+} from "../../../src/lib/error-handler";
 
 afterEach(() => {
   sinon.reset();
