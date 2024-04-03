@@ -1,33 +1,34 @@
 openapi: 3.0.3
 
 info:
-    version: 0.0.0-semantically-released
-    title: User API
-    description: API for User login/register
-
-servers:
-    - url: http://{host}:{port}
-      description: local
-      variables:
-          host:
-              default: localhost
-              description: hostname
-          port:
-              default: "4000"
-              description: port number
-
-paths:
-    $ref: paths/index.yml
-
-components:
-    securitySchemes:
-        bearerAuth:
-            type: http
-            scheme: bearer
+  version: 0.0.0-semantically-released
+  title: User API
+  description: API for User login/register
 
 security:
-    - bearerAuth: []
+  - bearerAuth: []
+
+servers:
+  - url: http://{host}:{port}
+    description: local
+    variables:
+      host:
+        default: localhost
+        description: hostname
+      port:
+        default: "4000"
+        description: port number
+
+paths:
+  $ref: paths/index.yml
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
 tags:
-    - name: user
-      description: user actions
+  - name: user
+    description: user actions
