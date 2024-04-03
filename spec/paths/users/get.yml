@@ -1,32 +1,35 @@
 summary: Get a User object
 
 description: >
-    Get User by unique identifier.
+  Get User by unique identifier.
 
 operationId: user-get
 
 tags:
-    - user
+  - user
+
+security:
+  - bearerAuth: []
 
 parameters:
-    - $ref: ../../parameters/path/user_id.yml
+  - $ref: ../../parameters/path/user_id.yml
 
 responses:
-    200:
-        description: User object
-        content:
-            application/json:
-                schema:
-                    $ref: ../../schemas/User/read.yml
+  200:
+    description: User object
+    content:
+      application/json:
+        schema:
+          $ref: ../../schemas/User/read.yml
 
-    400:
-        $ref: ../../responses/400.yml
+  400:
+    $ref: ../../responses/400.yml
 
-    401:
-        $ref: ../../responses/401.yml
+  401:
+    $ref: ../../responses/401.yml
 
-    404:
-        $ref: ../../responses/404.yml
+  404:
+    $ref: ../../responses/404.yml
 
-    500:
-        $ref: ../../responses/500.yml
+  500:
+    $ref: ../../responses/500.yml

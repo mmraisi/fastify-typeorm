@@ -1,40 +1,43 @@
 summary: Update a User object
 
 description: >
-    Update a user object.
+  Update a user object.
 
 operationId: user-update
 
 tags:
-    - user
+  - user
+
+security:
+  - bearerAuth: []
 
 parameters:
-    - $ref: ../../parameters/path/user_id.yml
+  - $ref: ../../parameters/path/user_id.yml
 
 requestBody:
-    description: User object to update
-    required: true
-    content:
-        application/json:
-            schema:
-                $ref: ../../schemas/User/update.yml
+  description: User object to update
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: ../../schemas/User/update.yml
 
 responses:
-    201:
-        description: Updated User object
-        content:
-            application/json:
-                schema:
-                    $ref: ../../schemas/User/read.yml
+  201:
+    description: Updated User object
+    content:
+      application/json:
+        schema:
+          $ref: ../../schemas/User/read.yml
 
-    400:
-        $ref: ../../responses/400.yml
+  400:
+    $ref: ../../responses/400.yml
 
-    401:
-        $ref: ../../responses/401.yml
+  401:
+    $ref: ../../responses/401.yml
 
-    404:
-        $ref: ../../responses/404.yml
+  404:
+    $ref: ../../responses/404.yml
 
-    500:
-        $ref: ../../responses/500.yml
+  500:
+    $ref: ../../responses/500.yml
