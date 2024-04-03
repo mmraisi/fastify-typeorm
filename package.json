@@ -44,7 +44,7 @@
 	"devDependencies": {
 		"@semantic-release/github": "^10.0.2",
 		"@semantic-release/release-notes-generator": "^12.1.0",
-		"@types/node": "^20.12.2",
+		"@types/node": "^20.12.3",
 		"@types/pg": "^8.11.4",
 		"@types/sinon": "^17.0.3",
 		"@typescript-eslint/eslint-plugin": "^7.5.0",
