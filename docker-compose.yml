@@ -1,74 +1,78 @@
 version: "3.8"
 
 x-env: &env
-    environment:
-        NODE_ENV: ${NODE_ENV:-development}
-        PORT: ${PORT:-4000}
-        POSTGRES_USER: ${DB_USER:-user}
-        POSTGRES_PASSWORD: ${DB_PASSWORD:-user}
-        POSTGRES_HOST: postgres
+  environment:
+    NODE_ENV: ${NODE_ENV:-development}
+    PORT: ${PORT:-4000}
+    POSTGRES_USER: ${DB_USER:-user}
+    POSTGRES_PASSWORD: ${DB_PASSWORD:-user}
+    POSTGRES_HOST: postgres
 
 services:
-    postgres:
-        <<: *env
-        image: postgres:15-alpine3.19
-        volumes:
-            - postgres:/var/lib/postgresql/data
-            - .docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
-        ports:
-            - "5432:5432"
-        networks:
-            - postgres
-        stop_grace_period: 1s
+  postgres:
+    <<: *env
+    image: postgres:15-alpine3.19
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - .docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    stop_grace_period: 1s
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $DB_USER -d $DB_NAME"]
+      interval: 5s
+      retries: 10
+      timeout: 5s
 
-    schema:
-        image: node:20-slim
-        volumes:
-            - ./spec:/spec
-            - ./src:/src
-            - ./scripts:/scripts
-        command:
-            - /bin/bash
-            - -c
-            - |
-                chmod +x /scripts/openapi.sh
-                /scripts/openapi.sh
-        stop_grace_period: 1s
+  schema:
+    image: node:20-slim
+    volumes:
+      - ./spec:/spec
+      - ./src:/src
+      - ./scripts:/scripts
+    command:
+      - /bin/bash
+      - -c
+      - |
+        chmod +x /scripts/openapi.sh
+        /scripts/openapi.sh
+    stop_grace_period: 1s
 
-    server:
-        <<: *env
-        build: .
-        working_dir: /app
-        command: npm start
-        tty: true
-        depends_on:
-            - schema
-            - postgres
-        volumes:
-            - ./src:/src
-        ports:
-            - ${PORT:-4000}:4000
-        networks:
-            - postgres
-        stop_grace_period: 1s
-
-    docs:
-        image: ahmadnassri/rapidoc-server:1.0.8
-        ports:
-            - 8000:8000
-        volumes:
-            - ./spec:/spec
-        environment:
-            spec-url: /spec/openapi.yml
-            render-style: focused
-            schema-style: table
-            schema-description-expanded: "true"
-            show-info: "false"
-            show-header: "false"
-        stop_grace_period: 1s
+  server:
+    <<: *env
+    build: .
+    working_dir: /app
+    command: npm start
+    tty: true
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./src:/src
+    ports:
+      - ${PORT:-4000}:4000
+    networks:
+      - postgres
+    stop_grace_period: 1s
+  docs:
+    image: ahmadnassri/rapidoc-server:1.0.8
+    ports:
+      - 8080:8080
+    volumes:
+      - ./spec:/spec
+    environment:
+      spec-url: /spec/openapi.yml
+      render-style: focused
+      schema-style: table
+      schema-description-expanded: "true"
+      show-info: "false"
+      show-header: "false"
+    stop_grace_period: 1s
 networks:
-    postgres:
-        driver: bridge
+  postgres:
+    driver: bridge
 
 volumes:
-    postgres:
+  postgres:

@@ -11,7 +11,6 @@ schema: ## generate schema (spec.json )
 
 install: ## install all deps
 	@docker-compose run --no-deps --rm schema
-	@sleep 2
 	@docker-compose run --no-deps --rm server npm ci --quiet
 	@npm install
 
@@ -19,9 +18,9 @@ docs: ## start the doc in foreground
 	@docker compose up docs
 
 start: install ## start the project in foreground
-	@docker-compose up postgres  docs server
+	@docker-compose up postgres docs server
 
-run: install ## start the project in background	
+run: install ## start the project in background
 	@docker compose up -d postgres docs server
 
 db: ## create a db
