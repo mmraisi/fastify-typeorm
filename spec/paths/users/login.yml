@@ -1,37 +1,37 @@
 summary: User login
 
 description: >
-    User login.
+  User login.
 
 operationId: login
 
 tags:
-    - user
+  - user
 
 requestBody:
-    description: User payload to login
-    required: true
-    content:
-        application/json:
-            schema:
-                $ref: ../../schemas/User/login_payload.yml
+  description: User payload to login
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: ../../schemas/User/login_payload.yml
 
 responses:
-    200:
-        description: successful login
-        content:
-            application/json:
-                schema:
-                    $ref: ../../schemas/User/login_response.yml
+  200:
+    description: successful login
+    content:
+      application/json:
+        schema:
+          $ref: ../../schemas/User/login_response.yml
 
-    400:
-        $ref: ../../responses/400.yml
+  400:
+    $ref: ../../responses/400.yml
 
-    401:
-        $ref: ../../responses/401.yml
+  401:
+    $ref: ../../responses/401.yml
 
-    404:
-        $ref: ../../responses/404.yml
+  404:
+    $ref: ../../responses/404.yml
 
-    500:
-        $ref: ../../responses/500.yml
+  500:
+    $ref: ../../responses/500.yml
