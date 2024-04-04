@@ -5,3 +5,5 @@ export const hashPassword = async (password: string): Promise<string> => {
   const hash = await bcrypt.hash(password, salt);
   return hash;
 };
+
+export const bypassRoutes = ["register", "login"];
