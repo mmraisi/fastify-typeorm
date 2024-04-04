@@ -1,6 +1,7 @@
 import Problem from "api-problem";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { ReasonPhrases } from "http-status-codes";
+import { QueryFailedError } from "typeorm";
 
 export const CustomApiErrors = {
   ERR_ALREADY_EXISTS: "ALREADY.EXISTS",
@@ -42,6 +43,20 @@ export function errorHandler(
       });
       break;
 
+    case error instanceof QueryFailedError:
+      request.log.fatal(error, error.message);
+
+      // Customize the response according to your requirements
+      problem = new Problem(
+        500,
+        ReasonPhrases.INTERNAL_SERVER_ERROR.toUpperCase(),
+        null,
+        {
+          detail: "Database operation failed.",
+        }
+      );
+      break;
+
     case error instanceof SyntaxError:
       request.log.fatal(error, error.message);
       problem = new Problem(
@@ -52,12 +67,6 @@ export function errorHandler(
           detail: error.message,
         }
       );
-      break;
-    case error?.code.includes("JWT"):
-      request.log.fatal(error, error.message);
-      problem = new Problem(400, error.code, null, {
-        detail: error.message,
-      });
       break;
 
     // openApi spec validation error
@@ -78,7 +87,8 @@ export function errorHandler(
 
     default:
       // Log other errors as error level
-      request.log.error(error, error.message);
+      request.log.fatal(error, error.message);
+
       problem = new Problem(
         500,
         ReasonPhrases.INTERNAL_SERVER_ERROR.toUpperCase(),

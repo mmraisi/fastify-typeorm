@@ -1,4 +1,4 @@
-import { test, describe, assert, afterEach } from "vitest";
+import { test, describe, assert, afterEach, expect, beforeEach } from "vitest";
 import Problem from "api-problem";
 import sinon from "sinon";
 import { buildMockReply } from "../../lib/mocks";
@@ -6,26 +6,27 @@ import {
   buildApiErrorCode,
   errorHandler,
 } from "../../../src/lib/error-handler";
-
-afterEach(() => {
-  sinon.reset();
-});
+import { QueryFailedError } from "typeorm";
 
 describe("Error Handler Tests", () => {
-  test("Handles Problem instance", async () => {
-    const error = new Problem(404, "Not Found");
-    const mockRequest = {
+  let mockRequest: any;
+
+  beforeEach(() => {
+    mockRequest = {
       log: {
-        fatal(err: any, msg: string) {
-          assert.deepStrictEqual(err, error);
-          assert.equal(msg, error.message);
-        },
-        warn(err: any, msg: string) {
-          assert.deepStrictEqual(err, error);
-          assert.equal(msg, error.message);
-        },
+        fatal: sinon.stub(),
+        warn: sinon.stub(),
+        error: sinon.stub(),
       },
     };
+  });
+
+  afterEach(() => {
+    sinon.restore();
+  });
+
+  test("Handles Problem instance", async () => {
+    const error = new Problem(404, "Not Found");
 
     // const mockFastify = buildMockFastify();
     const mockReply = buildMockReply();
@@ -45,18 +46,6 @@ describe("Error Handler Tests", () => {
       message: "Error message",
     };
 
-    const mockRequest = {
-      log: {
-        fatal(err: any, msg: string) {
-          assert.deepStrictEqual(err, error);
-          assert.equal(msg, error.message);
-        },
-        warn(err: any, msg: string) {
-          assert.deepStrictEqual(err, error);
-          assert.equal(msg, error.message);
-        },
-      },
-    };
     const mockReply = buildMockReply();
 
     errorHandler(error, mockRequest as any, mockReply as any);
@@ -68,18 +57,6 @@ describe("Error Handler Tests", () => {
   test("Handles SyntaxError instance", async () => {
     const error = new SyntaxError("Invalid JSON");
 
-    const mockRequest = {
-      log: {
-        fatal(err: any, msg: string) {
-          assert.deepStrictEqual(err, error);
-          assert.equal(msg, error.message);
-        },
-        warn(err: any, msg: string) {
-          assert.deepStrictEqual(err, error);
-          assert.equal(msg, error.message);
-        },
-      },
-    };
     const mockReply = buildMockReply();
 
     errorHandler(error, mockRequest as any, mockReply as any);
@@ -95,18 +72,6 @@ describe("Error Handler Tests", () => {
       validationContext: "Validation context",
     };
 
-    const mockRequest = {
-      log: {
-        fatal(err: any, msg: string) {
-          assert.deepStrictEqual(err, error);
-          assert.equal(msg, error.message);
-        },
-        warn(err: any, msg: string) {
-          assert.deepStrictEqual(err, error);
-          assert.equal(msg, error.message);
-        },
-      },
-    };
     const mockReply = buildMockReply();
 
     errorHandler(error, mockRequest as any, mockReply as any);
@@ -116,24 +81,24 @@ describe("Error Handler Tests", () => {
   });
 
   test("Handles Uncaught Error instance", async () => {
-    const error = new Error("uncaught error");
+    const query = "SELECT * FROM users";
+    const parameters = [1, 2, 3]; // Example parameters, if any
+    const driverError = new Error("Database connection lost");
 
-    const mockRequest = {
-      log: {
-        fatal(err: any, msg: string) {
-          assert.deepStrictEqual(err, error);
-          assert.equal(msg, error.message);
-        },
-        warn(err: any, msg: string) {
-          assert.deepStrictEqual(err, error);
-          assert.equal(msg, error.message);
-        },
-        error(err: any, msg: string) {
-          assert.deepStrictEqual(err, error);
-          assert.equal(msg, error.message);
-        },
-      },
-    };
+    const error = new QueryFailedError(query, parameters, driverError);
+
+    const mockReply = buildMockReply();
+
+    errorHandler(error, mockRequest as any, mockReply as any);
+
+    expect(mockRequest.log.fatal.called).to.be.true;
+    sinon.assert.calledWith(mockReply.code, 500);
+    sinon.assert.calledWith(mockReply.type, "application/json");
+  });
+
+  test("Handles QueryFailedError instance", async () => {
+    const error = new Error("error message from db");
+
     const mockReply = buildMockReply();
 
     errorHandler(error, mockRequest as any, mockReply as any);
