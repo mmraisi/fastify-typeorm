@@ -5,7 +5,10 @@ export const buildMockFastify = () => {
     log: {
       info: sinon.stub(),
     },
-    db: sinon.stub(),
+    db: {
+      getRepository: sinon.stub(),
+    },
+    jwt: sinon.stub(),
   };
 };
 export const buildMockReply = () => {
