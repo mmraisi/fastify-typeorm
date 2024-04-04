@@ -11,17 +11,17 @@ export class Users {
   @PrimaryGeneratedColumn("uuid")
   user_id!: string;
 
-  @Column("text", { nullable: true })
-  user_first_name?: string;
+  @Column("text")
+  user_first_name!: string;
 
-  @Column("text", { nullable: true })
-  user_last_name?: string;
+  @Column("text")
+  user_last_name!: string;
 
-  @Column("text", { nullable: true, unique: true })
-  user_email?: string;
+  @Column("text", { unique: true })
+  user_email!: string;
 
-  @Column("text", { nullable: true })
-  user_password?: string;
+  @Column("text")
+  user_password!: string;
 
   @CreateDateColumn({
     type: "timestamp without time zone",
