@@ -16,7 +16,7 @@ export const register = async (
 
   log.info("Attempting to register a new user");
 
-  const usersRepository = db.getRepository("users");
+  const usersRepository = db.getRepository(Users);
 
   // check if the email already exists
   const user = await usersRepository.findOne({

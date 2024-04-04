@@ -6,6 +6,8 @@ import { QueryFailedError } from "typeorm";
 export const CustomApiErrors = {
   ERR_ALREADY_EXISTS: "ALREADY.EXISTS",
   ERR_MISSING_PROPERTIES: "MISSING.PROPERTIES",
+  ERR_UNAUTHORIZED: "UNAUTHORIZED",
+  ERR_NOT_FOUND: "NOT_FOUND",
   // add more as needed
 };
 
