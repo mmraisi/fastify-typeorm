@@ -8,7 +8,9 @@ export const buildMockFastify = () => {
     db: {
       getRepository: sinon.stub(),
     },
-    jwt: sinon.stub(),
+    jwt: {
+      sign: sinon.stub().returns("access_token"),
+    },
   };
 };
 export const buildMockReply = () => {
