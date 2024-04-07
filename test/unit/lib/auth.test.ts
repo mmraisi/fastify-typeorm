@@ -1,6 +1,6 @@
 import sinon, { SinonStub } from "sinon";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { hashPassword } from "../../../src/lib/auth";
 
 describe("hashPassword function", () => {

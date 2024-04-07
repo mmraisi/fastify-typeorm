@@ -27,7 +27,7 @@ db: ## create a db
 	@docker compose up -d postgres
 	@sleep 5
 
-test-unit: ## test all unit
+unit-test: ## test all unit
 	@docker compose run --no-deps --rm server npm run test:ci
 
 create-db-migration: ## creates a new migration file using TypeORM

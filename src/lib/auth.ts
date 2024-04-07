@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { JWT } from "@fastify/jwt";
 
 export const hashPassword = async (password: string): Promise<string> => {
