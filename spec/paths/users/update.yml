@@ -23,7 +23,7 @@ requestBody:
         $ref: ../../schemas/User/update.yml
 
 responses:
-  201:
+  200:
     description: Updated User object
     content:
       application/json:

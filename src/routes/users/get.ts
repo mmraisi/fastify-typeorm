@@ -1,8 +1,8 @@
 import { FastifyReply } from "fastify";
-import { IFastify, TFastifyRequest } from "../../@types/fastify";
-import { Users } from "../database/entities/Users.entity";
+import { IFastify, TFastifyRequest } from "../../../@types/fastify";
+import { Users } from "../../database/entities/Users.entity";
 import Problem from "api-problem";
-import { buildApiErrorCode, CustomApiErrors } from "../lib/error-handler";
+import { buildApiErrorCode, CustomApiErrors } from "../../lib/error-handler";
 
 export const getUser = async (
   request: TFastifyRequest,
@@ -17,7 +17,7 @@ export const getUser = async (
 
   const usersRepository = db.getRepository(Users);
 
-  // check if the user already exists
+  // check if the user does not exists
   const user = await usersRepository.findOne({
     where: {
       user_id,

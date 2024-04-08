@@ -4,7 +4,7 @@ import { FastifyRequest } from "fastify";
 import { Users } from "../../../../src/database/entities/Users.entity";
 import { buildMockFastify, buildMockReply } from "../../../lib/mocks";
 import { hashPassword } from "../../../../src/lib/auth";
-import { login } from "../../../../src/routes/login";
+import { login } from "../../../../src/routes/users/login";
 import {
   buildApiErrorCode,
   CustomApiErrors,

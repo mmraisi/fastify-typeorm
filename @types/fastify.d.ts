@@ -1,4 +1,4 @@
-import fastify from "fastify";
+import fastify, { FastifyRequest } from "fastify";
 import { JWT } from "@fastify/jwt";
 import { FastifyInstance } from "fastify";
 import { DataSource } from "typeorm";

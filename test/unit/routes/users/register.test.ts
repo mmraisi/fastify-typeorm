@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, afterEach } from "vitest";
 import sinon from "sinon";
 import { FastifyRequest, FastifyReply } from "fastify";
-import { register } from "../../../../src/routes/register";
+import { register } from "../../../../src/routes/users/register";
 import { Users } from "../../../../src/database/entities/Users.entity";
 import { buildMockFastify, buildMockReply } from "../../../lib/mocks";
 import {

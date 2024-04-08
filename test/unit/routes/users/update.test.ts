@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { buildMockFastify, buildMockReply } from "../../../lib/mocks";
 import { Users } from "../../../../src/database/entities/Users.entity";
 import sinon from "sinon";
-import { getUser } from "../../../../src/routes/users/get";
+import { updateUser } from "../../../../src/routes/users/update";
 import {
   buildApiErrorCode,
   CustomApiErrors,
@@ -20,11 +20,15 @@ describe("getUser API", () => {
       user: {
         user_id,
       },
+      body: {
+        user_first_name: "John",
+        user_last_name: "Smith",
+      },
     };
     reply = buildMockReply();
   });
 
-  it("should fetch user by user_id and return it if found", async () => {
+  it("should update user by user_id and return it if found", async () => {
     const mockUser = {
       user_id,
       user_email: "john@example.com",
@@ -34,19 +38,21 @@ describe("getUser API", () => {
       date_updated: "2024-04-08T06:33:55.426Z",
     };
     fastify.db.getRepository.withArgs(Users).returns({
-      findOne: sinon.stub().resolves(mockUser),
+      findOne: sinon.stub().resolves({ ...mockUser, ...request.body }),
+      update: sinon.stub().resolves(),
     });
 
-    await getUser(request, reply, fastify);
-    console.log(`Attempting to fetch user_id - ${user_id}`);
+    await updateUser(request, reply, fastify);
+    console.log(`Attempting to update user_id - ${user_id}`);
 
     sinon.assert.calledWith(
       fastify.log.info,
-      `Attempting to fetch user_id - ${user_id}`
+      `Attempting to update user_id - ${user_id}`
     );
     sinon.assert.calledWith(reply.code, 200);
     sinon.assert.calledWith(reply.header, "Content-Type", "application/json");
-    sinon.assert.calledWith(reply.send, mockUser);
+    expect(reply.send.firstCall.args[0].user_last_name).to.equal("Smith");
+    sinon.assert.calledWith(reply.send, { ...mockUser, ...request.body });
   });
 
   it("should throw 404 error if user is not found", async () => {
@@ -55,11 +61,11 @@ describe("getUser API", () => {
     });
 
     try {
-      await getUser(request as any, reply as any, fastify as any);
+      await updateUser(request as any, reply as any, fastify as any);
     } catch (error: any) {
       sinon.assert.calledWith(
         fastify.log.info,
-        `Attempting to fetch user_id - ${user_id}`
+        `Attempting to update user_id - ${user_id}`
       );
 
       expect(error.status).to.equal(404);

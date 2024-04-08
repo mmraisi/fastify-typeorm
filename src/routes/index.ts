@@ -1,5 +1,11 @@
-import { getUser } from "./get";
-import { login } from "./login";
-import { register } from "./register";
+import { getUser } from "./users/get";
+import { login } from "./users/login";
+import { register } from "./users/register";
+import { updateUser } from "./users/update";
 
-export const handler = { register, login, "user-get": getUser };
+export const handler = {
+  register,
+  login,
+  "user-get": getUser,
+  "user-update": updateUser,
+};
