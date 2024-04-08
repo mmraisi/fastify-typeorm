@@ -1,10 +1,10 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { IFastify } from "../../@types/fastify-input";
 import Problem from "api-problem";
 import { buildApiErrorCode, CustomApiErrors } from "../lib/error-handler";
 import bcrypt from "bcryptjs";
 import { Users } from "../database/entities/Users.entity";
 import { createAccessToken } from "../lib/auth";
+import { IFastify } from "../../@types/fastify";
 
 export const login = async (
   request: FastifyRequest,

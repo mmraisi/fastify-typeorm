@@ -1,14 +1,14 @@
 import { describe, it, afterEach, expect } from "vitest";
 import sinon from "sinon";
 import { FastifyRequest } from "fastify";
-import { Users } from "../../../src/database/entities/Users.entity";
-import { buildMockFastify, buildMockReply } from "../../lib/mocks";
-import { hashPassword } from "../../../src/lib/auth";
-import { login } from "../../../src/routes/login";
+import { Users } from "../../../../src/database/entities/Users.entity";
+import { buildMockFastify, buildMockReply } from "../../../lib/mocks";
+import { hashPassword } from "../../../../src/lib/auth";
+import { login } from "../../../../src/routes/login";
 import {
   buildApiErrorCode,
   CustomApiErrors,
-} from "../../../src/lib/error-handler";
+} from "../../../../src/lib/error-handler";
 
 describe("Login Route Tests", () => {
   afterEach(() => {

@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it, afterEach } from "vitest";
 import sinon from "sinon";
 import { FastifyRequest, FastifyReply } from "fastify";
-import { register } from "../../../src/routes/register";
-import { Users } from "../../../src/database/entities/Users.entity";
-import { buildMockFastify, buildMockReply } from "../../lib/mocks";
+import { register } from "../../../../src/routes/register";
+import { Users } from "../../../../src/database/entities/Users.entity";
+import { buildMockFastify, buildMockReply } from "../../../lib/mocks";
 import {
   buildApiErrorCode,
   CustomApiErrors,
-} from "../../../src/lib/error-handler";
+} from "../../../../src/lib/error-handler";
 
 describe("register new user", () => {
   let request: FastifyRequest;

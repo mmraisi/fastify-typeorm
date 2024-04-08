@@ -1,9 +1,9 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { IFastify } from "../../@types/fastify-input";
 import { Users } from "../database/entities/Users.entity";
 import { hashPassword } from "../lib/auth";
 import Problem from "api-problem";
 import { buildApiErrorCode, CustomApiErrors } from "../lib/error-handler";
+import { IFastify } from "../../@types/fastify";
 
 export const register = async (
   request: FastifyRequest,
