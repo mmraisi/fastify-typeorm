@@ -9,7 +9,7 @@ import {
   CustomApiErrors,
 } from "../../../src/lib/error-handler";
 
-describe("register function", () => {
+describe("register new user", () => {
   let request: FastifyRequest;
   let reply: any;
   let fastify: any;
@@ -36,12 +36,12 @@ describe("register function", () => {
 
     request.body = newUser;
 
-    const usersRepositoryInsertStub = sinon.stub().resolves({});
+    const usersRepositorySaveStub = sinon.stub().resolves(newUser);
 
     fastify.db.getRepository = sinon.stub().returns({
       findOne: sinon.stub().resolves(null),
       create: sinon.stub().returns(newUser),
-      insert: usersRepositoryInsertStub,
+      save: usersRepositorySaveStub,
     });
 
     await register(request, reply as FastifyReply, fastify);
@@ -51,7 +51,10 @@ describe("register function", () => {
     expect(reply.header.calledOnceWith("Content-Type", "application/json")).to
       .be.true;
     expect(reply.send.calledOnce).to.be.true;
-    expect(usersRepositoryInsertStub.calledOnceWith(newUser)).to.be.true;
+    expect(reply.send.firstCall.args[0].user_email).to.equal(
+      "test@example.com"
+    );
+    expect(usersRepositorySaveStub.calledOnceWith(newUser)).to.be.true;
   });
 
   it("should return 409 Conflict if user already exists", async () => {

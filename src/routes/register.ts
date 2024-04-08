@@ -43,7 +43,7 @@ export const register = async (
     user_last_name: body.user_last_name,
   });
 
-  const res = await usersRepository.insert(newUser);
+  const res = await usersRepository.save(newUser);
 
   return reply.code(201).header("Content-Type", "application/json").send(res);
 };
