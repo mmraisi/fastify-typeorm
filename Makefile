@@ -7,25 +7,24 @@
 
 
 schema: ## generate schema (spec.json )
-	@docker-compose run --no-deps --rm schema
+	@docker compose run --no-deps --rm schema sh /scripts/openapi.sh
 
 install: ## install all deps
-	@docker-compose run --no-deps --rm schema
+	@docker compose run --no-deps --rm schema-tools
 	@docker-compose run --no-deps --rm server npm ci --quiet
 	@npm install
 
 docs: ## start the doc in foreground
 	@docker compose up docs
 
-start: install ## start the project in foreground
+start: install schema ## start the project in foreground
 	@docker-compose up postgres docs server
 
-run: install ## start the project in background
+run: install schema ## start the project in background
 	@docker compose up -d postgres docs server
 
 db: ## create a db
 	@docker compose up -d postgres
-	@sleep 5
 
 test-unit: ## test all unit
 	@docker compose run --no-deps --rm server npm run test:ci

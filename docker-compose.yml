@@ -9,35 +9,35 @@ x-env: &env
     POSTGRES_HOST: postgres
 
 services:
-  postgres:
-    <<: *env
-    image: postgres:15-alpine3.19
+  schema-tools:
+    image: node:20-slim
     volumes:
-      - postgres:/var/lib/postgresql/data
-      - .docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5432:5432"
-    networks:
-      - postgres
+      - npm:/home/node/.npm-global
+    environment:
+      PATH: $PATH:/home/node/.npm-global/bin
+      NPM_CONFIG_PREFIX: /home/node/.npm-global
+    command: >
+      npm install -g --ignore-scripts --quiet @redocly/cli@latest nodemon
     stop_grace_period: 1s
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $DB_USER -d $DB_NAME"]
-      interval: 5s
-      retries: 10
-      timeout: 5s
 
   schema:
     image: node:20-slim
+    depends_on:
+      - schema-tools
     volumes:
       - ./spec:/spec
       - ./src:/src
       - ./scripts:/scripts
+      - npm:/home/node/.npm-global
+    environment:
+      PATH: $PATH:/home/node/.npm-global/bin
+      NPM_CONFIG_PREFIX: /home/node/.npm-global
     command:
       - /bin/bash
       - -c
       - |
         chmod +x /scripts/openapi.sh
-        /scripts/openapi.sh
+        npx nodemon --watch /spec --ext yml --exec sh /scripts/openapi.sh
     stop_grace_period: 1s
 
   server:
@@ -56,6 +56,29 @@ services:
     networks:
       - postgres
     stop_grace_period: 1s
+
+  postgres:
+    <<: *env
+    image: postgres:15-alpine3.19
+    command: ["postgres", "-c", "log_statement=all"]
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - .docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U -d postgres || (echo 'Database is ready'; exit 0)",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    stop_grace_period: 1s
+
   docs:
     image: ahmadnassri/rapidoc-server:1.0.8
     ports:
@@ -70,9 +93,11 @@ services:
       show-info: "false"
       show-header: "false"
     stop_grace_period: 1s
+
 networks:
   postgres:
     driver: bridge
 
 volumes:
+  npm:
   postgres:
