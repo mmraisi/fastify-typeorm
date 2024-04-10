@@ -24,44 +24,44 @@ const PORT = process.env.PORT ?? 4000;
 export let server: FastifyInstance;
 
 const start = async () => {
-	// fastify default options
-	const opts = {
-		logger: true,
-		server: {
-			keepAliveTimeout: 5000,
-			ignoreTrailingSlash: false,
-		},
-		// oas does not accept the oas "example" property without the following option
-		ajv: {
-			customOptions: {
-				strict: false,
-			},
-		},
-	};
+  // fastify default options
+  const defaultOptions = {
+    logger: true,
+    server: {
+      keepAliveTimeout: 5000,
+      ignoreTrailingSlash: false,
+    },
+    // oas does not accept the oas "example" property without the following option
+    ajv: {
+      customOptions: {
+        strict: false,
+      },
+    },
+  };
 
-	server = fastify({
-		...opts,
-	});
+  server = fastify({
+    ...defaultOptions,
+  });
 
-	// add plugins
-	server.register(autoload, {
-		dir: join(__dirname, "plugins"),
-		encapsulate: false,
-		options: opts,
-	});
+  // add plugins
+  server.register(autoload, {
+    dir: join(__dirname, "plugins"),
+    encapsulate: false,
+    options: { ...defaultOptions },
+  });
 
-	server.setErrorHandler(errorHandler);
+  server.setErrorHandler(errorHandler);
 
-	// Integrate oas-fastify
-	server.register(oas, {
-		spec,
-		handler,
-	});
+  // Integrate oas-fastify
+  server.register(oas, {
+    spec,
+    handler,
+  });
 
-	await server.listen({ port: PORT as number, host: "0.0.0.0" });
-	console.log("app is listening on port:", PORT);
+  await server.listen({ port: PORT as number, host: "0.0.0.0" });
+  console.log("app is listening on port:", PORT);
 
-	return server;
+  return server;
 };
 
 export { start };

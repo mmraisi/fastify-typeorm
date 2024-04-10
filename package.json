@@ -17,8 +17,9 @@
     "start": "node dist/src/index.js",
     "build": "rm -rf dist && tsc --build",
     "dev": "nodemon src/index.ts",
-    "test": "npm run lint && vitest . --coverage",
-    "test:ci": "npm run lint && vitest . --coverage  --watch=false"
+    "test:unit": "vitest ./test/unit --coverage --watch=false",
+    "test:integration": "NODE_ENV=test vitest ./test/integration --coverage --watch=false",
+    "test:ci": "npm run test:unit && npm run test:integration"
   },
   "keywords": [
     "orm",
@@ -40,10 +41,10 @@
     "oas-fastify": "^3.1.0",
     "pg": "^8.11.5",
     "reflect-metadata": "^0.2.2",
-    "sinon": "^17.0.1",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@semantic-release/github": "^10.0.3",
     "@semantic-release/release-notes-generator": "^12.1.0",
     "@types/bcryptjs": "^2.4.6",
@@ -58,6 +59,7 @@
     "semantic-release": "^23.0.8",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
+    "sinon": "^17.0.1",
     "vitest": "^1.4.0"
   }
 }
