@@ -29,6 +29,12 @@ db: ## create a db
 test: ## run unit tests
 	@docker compose run --no-deps --rm server npm run test:ci
 
+test-unit: ## run all tests
+	@docker compose run --no-deps --rm server npm run test:unit
+
+test-integration: ## run integration tests
+	@docker compose run --no-deps --rm server npm run test:integration
+
 create-db-migration: ## creates a new migration file using TypeORM
 	@echo "Enter migration file name: "; \
     read FILENAME; \

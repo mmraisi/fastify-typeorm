@@ -1,10 +1,19 @@
 import { FastifyInstance } from "fastify";
 import { DataSource } from "typeorm";
-import { dataSourceOptions } from "../database/data-source";
+import {
+  dataSourceOptions,
+  testDataSourceOptions,
+} from "../database/data-source";
+
+export let db: DataSource;
 
 export default async function plugin(fastify: FastifyInstance, opts: any) {
   try {
-    const db = new DataSource(dataSourceOptions);
+    db = new DataSource(
+      process.env.NODE_ENV === "test" // for integration tests
+        ? testDataSourceOptions
+        : dataSourceOptions
+    );
 
     await db.initialize();
     console.log("Connected to the database successfully");

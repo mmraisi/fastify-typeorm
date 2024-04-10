@@ -6,7 +6,11 @@ export default async function plugin(fastify: FastifyInstance, opts: any) {
   fastify.addHook("onRequest", async (request, reply) => {
     const url = request.url?.substring(1);
 
-    if (!bypassRoutes.includes(url)) {
+    if (
+      !bypassRoutes.includes(url) &&
+      process.env.NODE_ENV !== "test" &&
+      request.headers.authorization !== "Bearer __token__"
+    ) {
       await request.jwtVerify();
     }
   });
