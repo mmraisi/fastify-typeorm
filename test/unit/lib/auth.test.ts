@@ -1,7 +1,8 @@
 import sinon, { SinonStub } from "sinon";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, it } from "node:test";
 import bcrypt from "bcryptjs";
 import { hashPassword } from "../../../src/lib/auth";
+import assert from "node:assert/strict";
 
 describe("hashPassword function", () => {
   let genSaltStub: SinonStub;
@@ -30,11 +31,11 @@ describe("hashPassword function", () => {
 
     // Ensure bcrypt functions are called with correct arguments
 
-    expect(genSaltStub.calledOnceWith(10)).to.be.true;
-    expect(hashStub.calledOnceWith(password, "mockedSalt")).to.be.true;
+    assert.ok(genSaltStub.calledOnceWith(10));
+    assert.ok(hashStub.calledOnceWith(password, "mockedSalt"));
 
     // Ensure the correct hashed password is returned
-    expect(hashedPassword).to.equal("mockedHash");
+    assert(hashedPassword, "mockedHash");
   });
 
   it("should handle errors from bcrypt functions", async () => {
@@ -49,10 +50,10 @@ describe("hashPassword function", () => {
       await hashPassword(password);
     } catch (error) {
       // Ensure the error matches the expected error
-      expect(error).to.equal(expectedError);
+      assert.strictEqual(error, expectedError);
 
       // Ensure hash function is not called when genSalt fails
-      expect(hashStub.notCalled).to.be.true;
+      sinon.assert.notCalled(hashStub);
     }
   });
 });

@@ -3,7 +3,7 @@
     "lib": ["es2021"],
     "target": "es2021",
     "module": "commonjs",
-    "typeRoots": ["./@types", "node_modules/@types", "vitest/globals"],
+    "typeRoots": ["./@types", "node_modules/@types"],
     "moduleResolution": "node",
     // "checkJs": true,
     "outDir": "dist",

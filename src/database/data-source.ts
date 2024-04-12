@@ -2,10 +2,10 @@ import { DataSourceOptions } from "typeorm";
 
 const dataSourceDefaultOpts: DataSourceOptions = {
   type: "postgres",
-  host: process.env.DB_HOST ?? "localhost",
-  port: (process.env.DB_PORT ?? 5432) as number,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
+  host: process.env.POSTGRES_HOST ?? "localhost",
+  port: (process.env.POSTGRES_PORT ?? 5432) as number,
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
   entities: [__dirname + "/entities/**/*.entity{.ts,.js}"],
 };
 
