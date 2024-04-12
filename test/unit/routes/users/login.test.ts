@@ -1,4 +1,5 @@
-import { describe, it, afterEach, expect } from "vitest";
+import { describe, it, afterEach } from "node:test";
+import assert from "node:assert/strict";
 import sinon from "sinon";
 import { FastifyRequest } from "fastify";
 import { Users } from "../../../../src/database/entities/Users.entity";
@@ -76,12 +77,21 @@ describe("Login Route Tests", () => {
     try {
       await login(request as any, reply as any, fastify as any);
     } catch (error: any) {
-      expect(logInfoStub.calledOnceWith("Attempting to log in")).to.be.true;
-      expect(error.status).to.equal(401);
-      expect(error.code).to.include(
-        buildApiErrorCode("user", CustomApiErrors.ERR_UNAUTHORIZED)
+      // Assert that logInfoStub was called once with the expected message
+      assert(logInfoStub.calledOnceWith("Attempting to log in"));
+
+      // Assert that error status equals 401
+      assert.strictEqual(error.status, 401);
+
+      // Assert that error code includes the expected API error code
+      assert(
+        error.code.includes(
+          buildApiErrorCode("user", CustomApiErrors.ERR_UNAUTHORIZED)
+        )
       );
-      expect(error.context).to.deep.equal({
+
+      // Assert that error context is deeply equal to the expected object
+      assert.deepStrictEqual(error.context, {
         user_email: userPayload.user_email,
       });
     }
@@ -106,12 +116,21 @@ describe("Login Route Tests", () => {
     try {
       await login(request as any, reply as any, fastify as any);
     } catch (error: any) {
-      expect(logInfoStub.calledOnceWith("Attempting to log in")).to.be.true;
-      expect(error.status).to.equal(401);
-      expect(error.code).to.include(
-        buildApiErrorCode("user", CustomApiErrors.ERR_UNAUTHORIZED)
+      // Assert that logInfoStub was called once with the expected message
+      assert(logInfoStub.calledOnceWith("Attempting to log in"));
+
+      // Assert that error status equals 401
+      assert.strictEqual(error.status, 401);
+
+      // Assert that error code includes the expected API error code
+      assert(
+        error.code.includes(
+          buildApiErrorCode("user", CustomApiErrors.ERR_UNAUTHORIZED)
+        )
       );
-      expect(error.context).to.deep.equal({
+
+      // Assert that error context is deeply equal to the expected object
+      assert.deepStrictEqual(error.context, {
         user_email: userPayload.user_email,
       });
     }

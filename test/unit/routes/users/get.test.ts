@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, it } from "node:test";
+import assert from "node:assert/strict";
 import { buildMockFastify, buildMockReply } from "../../../lib/mocks";
 import { Users } from "../../../../src/database/entities/Users.entity";
 import sinon from "sinon";
@@ -62,11 +63,14 @@ describe("getUser API", () => {
         `Attempting to fetch user_id - ${user_id}`
       );
 
-      expect(error.status).to.equal(404);
-      expect(error.code).to.include(
-        buildApiErrorCode("user", CustomApiErrors.ERR_NOT_FOUND)
+      assert.ok(error.status, "404");
+      assert(
+        error.code.includes(
+          buildApiErrorCode("user", CustomApiErrors.ERR_NOT_FOUND)
+        )
       );
-      expect(error.context).to.deep.equal({
+
+      assert.deepStrictEqual(error.context, {
         user_id,
       });
     }

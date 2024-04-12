@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, it } from "node:test";
+import assert from "node:assert/strict";
 import { buildMockFastify, buildMockReply } from "../../../lib/mocks";
 import { Users } from "../../../../src/database/entities/Users.entity";
 import sinon from "sinon";
@@ -51,7 +52,9 @@ describe("getUser API", () => {
     );
     sinon.assert.calledWith(reply.code, 200);
     sinon.assert.calledWith(reply.header, "Content-Type", "application/json");
-    expect(reply.send.firstCall.args[0].user_last_name).to.equal("Smith");
+
+    assert.strictEqual(reply.send.firstCall.args[0].user_last_name, "Smith");
+
     sinon.assert.calledWith(reply.send, { ...mockUser, ...request.body });
   });
 
@@ -68,13 +71,13 @@ describe("getUser API", () => {
         `Attempting to update user_id - ${user_id}`
       );
 
-      expect(error.status).to.equal(404);
-      expect(error.code).to.include(
-        buildApiErrorCode("user", CustomApiErrors.ERR_NOT_FOUND)
+      assert.strictEqual(error.status, 404);
+      assert(
+        error.code.includes(
+          buildApiErrorCode("user", CustomApiErrors.ERR_NOT_FOUND)
+        )
       );
-      expect(error.context).to.deep.equal({
-        user_id,
-      });
+      assert.deepStrictEqual(error.context, { user_id });
     }
   });
 });

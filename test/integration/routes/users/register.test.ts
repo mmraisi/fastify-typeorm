@@ -1,22 +1,18 @@
-import { describe, it, assert } from "vitest";
+import { describe, it } from "node:test";
+import assert from "node:assert/strict";
 import { faker } from "@faker-js/faker";
 import { Users } from "../../../../src/database/entities/Users.entity";
-import { FastifyInstance } from "fastify";
-import { DataSource } from "typeorm";
+import { start } from "../../../../src/app";
 
 faker.seed(Math.floor(1_000_000_000 * Math.random()));
 
 describe("register new user", () => {
   console.log(process.env.NODE_ENV);
 
-  it("201: should successfully register a new user", async ({
-    app,
-    db,
-  }: {
-    app: { start: () => Promise<FastifyInstance> };
-    db: DataSource;
-  }) => {
-    const server = await app.start();
+  it("201: should successfully register a new user", async () => {
+    console.log(process.env.NODE_ENV);
+
+    const server = await start();
     const new_user: Partial<Users> = {
       user_email: `${faker.lorem.word(10)}@example.com`,
       user_first_name: faker.lorem.word(10),

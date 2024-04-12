@@ -1,4 +1,5 @@
-import { test, describe, assert, afterEach, expect, beforeEach } from "vitest";
+import { test, describe, afterEach, beforeEach } from "node:test";
+import assert from "node:assert/strict";
 import Problem from "api-problem";
 import sinon from "sinon";
 import { buildMockReply } from "../../lib/mocks";
@@ -91,7 +92,7 @@ describe("Error Handler Tests", () => {
 
     errorHandler(error, mockRequest as any, mockReply as any);
 
-    expect(mockRequest.log.fatal.called).to.be.true;
+    assert.ok(mockRequest.log.fatal.called);
     sinon.assert.calledWith(mockReply.code, 500);
     sinon.assert.calledWith(mockReply.type, "application/json");
   });
