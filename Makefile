@@ -1,6 +1,6 @@
 #!/usr/bin/make
 
-.PHONY: help
+.PHONY: build test help
 .DEFAULT_GOAL := help
 
 
@@ -26,7 +26,7 @@ run: install schema ## start the project in background
 db: ## create a db
 	@docker compose up -d postgres
 
-test-unit: ## test all unit
+test: ## run unit tests
 	@docker compose run --no-deps --rm server npm run test:ci
 
 create-db-migration: ## creates a new migration file using TypeORM

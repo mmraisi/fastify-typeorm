@@ -72,7 +72,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "pg_isready -U -d postgres || (echo 'Database is ready'; exit 0)",
+          "pg_isready -U -d ${DB_NAME} || (echo 'Database is ready'; exit 0)",
         ]
       interval: 5s
       timeout: 5s
