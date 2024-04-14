@@ -1,6 +1,6 @@
 import { DataSourceOptions } from "typeorm";
 
-export const generateDataSource = (opts?: any) => {
+export const generateDataSourceOptions = (opts: any) => {
   const {
     NODE_ENV,
     POSTGRES_HOST,
@@ -20,7 +20,7 @@ export const generateDataSource = (opts?: any) => {
     DB_NAME = POSTGRES_DB ?? "";
   }
 
-  const dataSource: DataSourceOptions = {
+  const dataSourceOptions: DataSourceOptions = {
     type: "postgres",
     host: POSTGRES_HOST ?? "localhost",
     port: (POSTGRES_PORT ?? 5432) as number,
@@ -35,5 +35,5 @@ export const generateDataSource = (opts?: any) => {
     migrationsTableName: "migration_table",
   };
 
-  return dataSource;
+  return dataSourceOptions;
 };

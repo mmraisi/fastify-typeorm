@@ -1,18 +1,36 @@
-import { describe, it } from "node:test";
+import { afterEach, beforeEach, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { faker } from "@faker-js/faker";
 import { Users } from "../../../../src/database/entities/Users.entity";
-import Server from "../../../../src/app";
+import {
+  createFastifyInstance,
+  integrationTestMethods,
+  TEST_DB_NAME,
+} from "../../../../src/database/testHarness/integration";
+import { DataSource } from "typeorm";
 
 faker.seed(Math.floor(1_000_000_000 * Math.random()));
 
+beforeEach(async (t: any) => {
+  const testSetup = integrationTestMethods();
+  t.context = {
+    testSetup,
+    testDataSource: await testSetup.beforeEach(),
+  };
+});
+
+afterEach(async (t: any) => {
+  await t.context.testSetup.afterEach();
+});
+
 describe("register new user", () => {
-  console.log(process.env.NODE_ENV);
+  it("201: should successfully register a new user", async (t: any) => {
+    const { testDataSource } = t.context as { testDataSource: DataSource };
 
-  it("201: should successfully register a new user", async () => {
-    console.log(process.env.NODE_ENV);
+    const server = await createFastifyInstance({
+      db: { overrideTestDbName: TEST_DB_NAME },
+    });
 
-    const server = new Server({}).fastifyInstance;
     const new_user: Partial<Users> = {
       user_email: `${faker.lorem.word(10)}@example.com`,
       user_first_name: faker.lorem.word(10),
@@ -20,13 +38,11 @@ describe("register new user", () => {
       user_password: faker.lorem.word(10),
     };
     const response = await server.inject({
-      method: "PUT",
-      url: "/tasks",
-      headers: {
-        authorization: "Bearer __token__",
-      },
+      method: "POST",
+      url: "/register",
       body: new_user,
     });
+
     assert.deepStrictEqual(response.statusCode, 201);
 
     const body = await response.json();
@@ -34,17 +50,17 @@ describe("register new user", () => {
     assert.deepStrictEqual(body.user_email, new_user?.user_email);
     assert.deepStrictEqual(body.user_first_name, new_user?.user_first_name);
 
-    await server.close();
-
     // check if the user created in the db
 
-    // const userRepo = db.getRepository(Users);
-    // const record = await userRepo.findOne({
-    //   where: {
-    //     user_email: new_user.user_email,
-    //   },
-    // });
+    const userRepo = testDataSource.getRepository(Users);
+    const record = await userRepo.findOne({
+      where: {
+        user_email: new_user.user_email,
+      },
+    });
 
-    // assert.deepStrictEqual(record?.user_id, body?.user_id);
+    assert.deepStrictEqual(record?.user_id, body?.user_id);
+
+    await server.close();
   });
 });

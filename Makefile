@@ -25,15 +25,16 @@ run: install schema ## start the project in background
 
 db: ## create a db
 	@docker compose up -d postgres
+	@sleep 5
 
-test: ## run unit tests
-	@docker compose run --no-deps --rm server npm run test:ci
+test: db ## run all tests
+	@docker compose run --rm -e NODE_ENV=test server npm run test:ci
 
-test-unit: ## run all tests
-	@docker compose run --no-deps --rm server npm run test:unit
+test-unit: ## run unit tests
+	@docker compose run --rm server npm run test:unit
 
 test-integration: ## run integration tests
-	@docker compose run --no-deps --rm server npm run test:integration
+	@docker compose run --rm -e NODE_ENV=test server npm run test:integration
 
 create-db-migration: ## creates a new migration file using TypeORM
 	@echo "Enter migration file name: "; \

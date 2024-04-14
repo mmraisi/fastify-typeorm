@@ -20,7 +20,7 @@
     "test:unit": "glob -c 'tsx --test' 'test/unit/**/*.test.ts'",
     "test:unit:100": "glob -c 'c8 --100 --reporter html --reporter text tsx --test' 'test/unit/**/*.test.ts'",
     "test:integration": "NODE_ENV=test glob -c 'tsx --test' 'test/integration/**/*.test.ts'",
-    "test:ci": "npm run test:unit:100"
+    "test:ci": "npm run test:unit:100 && npm run test:integration"
   },
   "keywords": [
     "orm",
