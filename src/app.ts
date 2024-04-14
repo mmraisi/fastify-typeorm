@@ -23,45 +23,61 @@ const PORT = process.env.PORT ?? 4000;
 
 export let server: FastifyInstance;
 
-const start = async () => {
-  // fastify default options
-  const defaultOptions = {
-    logger: true,
-    server: {
-      keepAliveTimeout: 5000,
-      ignoreTrailingSlash: false,
-    },
-    // oas does not accept the oas "example" property without the following option
-    ajv: {
-      customOptions: {
-        strict: false,
+export default class Server {
+  fastifyInstance: FastifyInstance;
+
+  constructor(private opts: any) {
+    // fastify default options
+    this.opts = {
+      logger: {
+        ...(this.opts.logger || {}),
       },
-    },
-  };
+      server: {
+        keepAliveTimeout: 5000,
+        ignoreTrailingSlash: false,
+      },
+      db: {
+        ...(this.opts.db || {}),
+      },
+      // oas does not accept the openAPI schema example property without the following option
+      ajv: {
+        customOptions: {
+          strict: false,
+        },
+      },
+    };
 
-  server = fastify({
-    ...defaultOptions,
-  });
+    this.fastifyInstance = fastify({
+      ...this.opts,
+    }) as any;
 
-  // add plugins
-  server.register(autoload, {
-    dir: join(__dirname, "plugins"),
-    encapsulate: false,
-    options: { ...defaultOptions },
-  });
+    // add plugins
+    this.fastifyInstance.register(autoload, {
+      dir: join(__dirname, "plugins"),
+      encapsulate: false,
+      options: this.opts,
+    });
+    this.fastifyInstance.setErrorHandler(errorHandler);
 
-  server.setErrorHandler(errorHandler);
+    // Integrate oas-fastify
+    this.fastifyInstance.register(oas, {
+      spec,
+      handler,
+    });
+  }
 
-  // Integrate oas-fastify
-  server.register(oas, {
-    spec,
-    handler,
-  });
-
-  await server.listen({ port: PORT as number, host: "0.0.0.0" });
-  console.log("app is listening on port:", PORT);
-
-  return server;
-};
-
-export { start };
+  async start() {
+    const instance = this.fastifyInstance;
+    try {
+      await instance.listen({
+        port: PORT as number,
+        host: "0.0.0.0",
+      });
+      console.log("app is listening on port:", PORT);
+      return instance;
+    } catch (error) {
+      instance.log.error(error);
+      process.exit(1);
+    }
+  }
+}

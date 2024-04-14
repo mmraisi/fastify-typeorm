@@ -11,7 +11,7 @@ const dataSourceDefaultOpts: DataSourceOptions = {
 
 export const dataSourceOptions: DataSourceOptions = {
   ...dataSourceDefaultOpts,
-  database: process.env.DB_NAME,
+  database: process.env.POSTGRES_DB,
   synchronize: false,
   logging: true,
   migrations: [__dirname + "/migrations/**/*{.ts,.js}"],
@@ -21,7 +21,7 @@ export const dataSourceOptions: DataSourceOptions = {
 
 export const testDataSourceOptions: DataSourceOptions = {
   ...dataSourceDefaultOpts,
-  database: "test",
+  database: process.env.NODE_ENV,
   synchronize: true,
   logging: true,
   dropSchema: true,

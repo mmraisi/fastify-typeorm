@@ -1,2 +1,2 @@
-CREATE DATABASE some_development;
+CREATE DATABASE development;
 CREATE DATABASE test;

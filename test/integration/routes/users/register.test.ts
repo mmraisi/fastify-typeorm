@@ -2,7 +2,7 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { faker } from "@faker-js/faker";
 import { Users } from "../../../../src/database/entities/Users.entity";
-import { start } from "../../../../src/app";
+import Server from "../../../../src/app";
 
 faker.seed(Math.floor(1_000_000_000 * Math.random()));
 
@@ -12,7 +12,7 @@ describe("register new user", () => {
   it("201: should successfully register a new user", async () => {
     console.log(process.env.NODE_ENV);
 
-    const server = await start();
+    const server = new Server({}).fastifyInstance;
     const new_user: Partial<Users> = {
       user_email: `${faker.lorem.word(10)}@example.com`,
       user_first_name: faker.lorem.word(10),

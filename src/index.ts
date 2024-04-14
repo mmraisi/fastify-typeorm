@@ -1,12 +1,11 @@
-import { start } from "./app";
+import Server from "./app";
 
 (async () => {
   try {
-    await start();
+    const server = new Server({});
+    await server.start();
   } catch (error) {
     console.error(error);
-    console.log(error instanceof Error);
-
     process.exit(1);
   }
 })();
