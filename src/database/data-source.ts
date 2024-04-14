@@ -1,28 +1,39 @@
 import { DataSourceOptions } from "typeorm";
 
-const dataSourceDefaultOpts: DataSourceOptions = {
-  type: "postgres",
-  host: process.env.POSTGRES_HOST ?? "localhost",
-  port: (process.env.POSTGRES_PORT ?? 5432) as number,
-  username: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  entities: [__dirname + "/entities/**/*.entity{.ts,.js}"],
-};
+export const generateDataSource = (opts?: any) => {
+  const {
+    NODE_ENV,
+    POSTGRES_HOST,
+    POSTGRES_USER,
+    POSTGRES_PASSWORD,
+    POSTGRES_PORT,
+    POSTGRES_DB,
+  } = process.env;
 
-export const dataSourceOptions: DataSourceOptions = {
-  ...dataSourceDefaultOpts,
-  database: process.env.POSTGRES_DB,
-  synchronize: false,
-  logging: true,
-  migrations: [__dirname + "/migrations/**/*{.ts,.js}"],
-  subscribers: [],
-  migrationsTableName: "migration_table",
-};
+  let DB_NAME: string = "";
 
-export const testDataSourceOptions: DataSourceOptions = {
-  ...dataSourceDefaultOpts,
-  database: process.env.NODE_ENV,
-  synchronize: true,
-  logging: true,
-  dropSchema: true,
+  const overrideTestDbName = opts?.db?.overrideTestDbName;
+
+  if (["test", "development"].includes(NODE_ENV ?? "")) {
+    DB_NAME = overrideTestDbName ?? NODE_ENV;
+  } else {
+    DB_NAME = POSTGRES_DB ?? "";
+  }
+
+  const dataSource: DataSourceOptions = {
+    type: "postgres",
+    host: POSTGRES_HOST ?? "localhost",
+    port: (POSTGRES_PORT ?? 5432) as number,
+    username: POSTGRES_USER,
+    password: POSTGRES_PASSWORD,
+    database: DB_NAME,
+    synchronize: false,
+    logging: true,
+    entities: [__dirname + "/entities/**/*.entity{.ts,.js}"],
+    migrations: [__dirname + "/migrations/**/*{.ts,.js}"],
+    subscribers: [],
+    migrationsTableName: "migration_table",
+  };
+
+  return dataSource;
 };
