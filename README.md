@@ -40,10 +40,10 @@ make start
 
 > The server will be running on port 8080 by default
 
-To run all unit test:
+To run all tests:
 
 ```bash
-make test-unit
+make unit
 ```
 
 To stop the server and remove the containers, use the following command:
