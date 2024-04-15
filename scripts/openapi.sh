@@ -4,4 +4,4 @@
 set -eu
 
 # Once redocly is available, bundle OpenAPI specification
-redocly bundle -d "/spec/openapi.yml" -o "/src/openapi.json"
+redocly bundle -d "spec/openapi.yml" -o "src/openapi.json"
