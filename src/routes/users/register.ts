@@ -34,11 +34,11 @@ export const register = async (
     });
   }
 
-  const hash_password = await hashPassword(body.user_password);
+  const hashedPassword = await hashPassword(body.user_password);
 
   const newUser = usersRepository.create({
     user_email: body.user_email,
-    user_password: hash_password,
+    user_password: hashedPassword,
     user_first_name: body.user_first_name,
     user_last_name: body.user_last_name,
   });

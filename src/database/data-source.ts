@@ -28,7 +28,7 @@ export const generateDataSourceOptions = (opts: any) => {
     password: POSTGRES_PASSWORD,
     database: DB_NAME,
     synchronize: false,
-    logging: true,
+    logging: process.env.NODE_ENV === "development",
     entities: [__dirname + "/entities/**/*.entity{.ts,.js}"],
     migrations: [__dirname + "/migrations/**/*{.ts,.js}"],
     subscribers: [],

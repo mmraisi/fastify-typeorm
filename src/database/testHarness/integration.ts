@@ -41,7 +41,7 @@ export const createDataSource = (database: string) => {
     password: process.env.POSTGRES_PASSWORD,
     database,
     synchronize: false,
-    logging: true,
+    logging: process.env.NODE_ENV === "development",
     entities: [entities + "/**/*.entity{.ts,.js}"],
   });
 };
