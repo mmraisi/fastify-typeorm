@@ -28,22 +28,57 @@ export default class Server {
 
   constructor(private opts: any) {
     // fastify default options
-    this.opts = {
-      logger: {
-        ...(this.opts.logger || {}),
+    const defaultOptions = {
+      routing: {
+        publicRoutes: [],
       },
+      db: {},
+      logger: {},
       server: {
         keepAliveTimeout: 5000,
+        mode: "api",
         ignoreTrailingSlash: false,
       },
-      db: {
-        ...(this.opts.db || {}),
+      development: {
+        security: true,
       },
-      // oas does not accept the openAPI schema example property without the following option
+      featureFlags: {},
+      // OpenAPI does not accept the openAPI schema "example" property without the following option
       ajv: {
         customOptions: {
           strict: false,
         },
+      },
+    };
+
+    this.opts = {
+      routing: {
+        ...defaultOptions.routing,
+        ...(opts.routing || {}),
+      },
+      db: {
+        ...defaultOptions.db,
+        ...(opts.db || {}),
+      },
+      logger: {
+        ...defaultOptions.logger,
+        ...(opts.logger || {}),
+      },
+      server: {
+        ...defaultOptions.server,
+        ...(opts.server || {}),
+      },
+      development: {
+        ...defaultOptions.development,
+        ...(opts.development || {}),
+      },
+      featureFlags: {
+        ...defaultOptions.featureFlags,
+        ...(opts.featureFlags || {}),
+      },
+      ajv: {
+        ...defaultOptions.ajv,
+        ...(opts.avj || {}),
       },
     };
 
