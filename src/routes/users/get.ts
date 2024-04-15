@@ -11,16 +11,20 @@ export const getUser = async (
 ) => {
   const { log, db } = fastify;
 
-  const { user_id } = request.user;
+  let { user_id: userId } = request?.user ?? {};
 
-  log.info(`Attempting to fetch user_id - ${user_id}`);
+  if (!userId) {
+    userId = (request?.params as { user_id: string })?.user_id;
+  }
+
+  log.info(`Attempting to fetch user_id - ${userId}`);
 
   const usersRepository = db.getRepository(Users);
 
   // check if the user does not exists
   const user = await usersRepository.findOne({
     where: {
-      user_id,
+      user_id: userId,
     },
   });
 
@@ -28,7 +32,7 @@ export const getUser = async (
     throw new Problem(404, {
       code: buildApiErrorCode("user", CustomApiErrors.ERR_NOT_FOUND),
       context: {
-        user_id,
+        userId,
       },
     });
   }

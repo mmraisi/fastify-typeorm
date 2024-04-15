@@ -11,18 +11,22 @@ export const updateUser = async (
 ) => {
   const { log, db } = fastify;
 
-  const { user_id } = request.user;
+  let { user_id: userId } = request?.user ?? {};
+
+  if (!userId) {
+    userId = (request?.params as { user_id: string })?.user_id;
+  }
 
   const { body } = request as { body: Users };
 
-  log.info(`Attempting to update user_id - ${user_id}`);
+  log.info(`Attempting to update user_id - ${userId}`);
 
   const usersRepository = db.getRepository(Users);
 
   // check if the user does not exists
   const user = await usersRepository.findOne({
     where: {
-      user_id,
+      user_id: userId,
     },
   });
 
@@ -30,17 +34,17 @@ export const updateUser = async (
     throw new Problem(404, {
       code: buildApiErrorCode("user", CustomApiErrors.ERR_NOT_FOUND),
       context: {
-        user_id,
+        userId,
       },
     });
   }
 
-  await usersRepository.update(user_id, {
+  await usersRepository.update(userId, {
     ...body,
   });
 
   const res = await usersRepository.findOne({
-    where: { user_id },
+    where: { user_id: userId },
   });
 
   return reply.code(200).header("Content-Type", "application/json").send(res);
