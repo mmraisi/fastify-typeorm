@@ -36,9 +36,7 @@ services:
     command:
       - /bin/bash
       - -c
-      - |
-        chmod +x /scripts/openapi.sh
-        npx nodemon --watch /spec --ext yml --exec sh /scripts/openapi.sh
+      - /scripts/openapi.sh
     stop_grace_period: 1s
 
   server:
