@@ -32,7 +32,7 @@ export const getUser = async (
     throw new Problem(404, {
       code: buildApiErrorCode("user", CustomApiErrors.ERR_NOT_FOUND),
       context: {
-        userId,
+        user_id: userId,
       },
     });
   }

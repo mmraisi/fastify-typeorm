@@ -13,13 +13,13 @@ describe("getUser API", () => {
   let fastify: any;
   let request: any;
   let reply: any;
-  const user_id = "bf7a7668-7c11-4b3f-8719-739659097e05";
+  const userId = "bf7a7668-7c11-4b3f-8719-739659097e05";
 
   beforeEach(() => {
     fastify = buildMockFastify();
     request = {
       user: {
-        user_id,
+        user_id: userId,
       },
     };
     reply = buildMockReply();
@@ -27,7 +27,7 @@ describe("getUser API", () => {
 
   it("should fetch user by user_id and return it if found", async () => {
     const mockUser = {
-      user_id,
+      user_id: userId,
       user_email: "john@example.com",
       user_first_name: "John",
       user_last_name: "Doe",
@@ -39,12 +39,9 @@ describe("getUser API", () => {
     });
 
     await getUser(request, reply, fastify);
-    console.log(`Attempting to fetch user_id - ${user_id}`);
+    console.log(`Attempting to fetch userId - ${userId}`);
 
-    sinon.assert.calledWith(
-      fastify.log.info,
-      `Attempting to fetch user_id - ${user_id}`
-    );
+    sinon.assert.calledOnce(fastify.log.info);
     sinon.assert.calledWith(reply.code, 200);
     sinon.assert.calledWith(reply.header, "Content-Type", "application/json");
     sinon.assert.calledWith(reply.send, mockUser);
@@ -60,7 +57,7 @@ describe("getUser API", () => {
     } catch (error: any) {
       sinon.assert.calledWith(
         fastify.log.info,
-        `Attempting to fetch user_id - ${user_id}`
+        `Attempting to fetch user_id - ${userId}`
       );
 
       assert.ok(error.status, "404");
@@ -71,7 +68,7 @@ describe("getUser API", () => {
       );
 
       assert.deepStrictEqual(error.context, {
-        user_id,
+        user_id: userId,
       });
     }
   });

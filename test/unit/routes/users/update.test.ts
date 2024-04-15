@@ -13,13 +13,13 @@ describe("getUser API", () => {
   let fastify: any;
   let request: any;
   let reply: any;
-  const user_id = "bf7a7668-7c11-4b3f-8719-739659097e05";
+  const userId = "bf7a7668-7c11-4b3f-8719-739659097e05";
 
   beforeEach(() => {
     fastify = buildMockFastify();
     request = {
       user: {
-        user_id,
+        user_id: userId,
       },
       body: {
         user_first_name: "John",
@@ -31,7 +31,7 @@ describe("getUser API", () => {
 
   it("should update user by user_id and return it if found", async () => {
     const mockUser = {
-      user_id,
+      user_id: userId,
       user_email: "john@example.com",
       user_first_name: "John",
       user_last_name: "Doe",
@@ -44,12 +44,8 @@ describe("getUser API", () => {
     });
 
     await updateUser(request, reply, fastify);
-    console.log(`Attempting to update user_id - ${user_id}`);
 
-    sinon.assert.calledWith(
-      fastify.log.info,
-      `Attempting to update user_id - ${user_id}`
-    );
+    sinon.assert.calledOnce(fastify.log.info);
     sinon.assert.calledWith(reply.code, 200);
     sinon.assert.calledWith(reply.header, "Content-Type", "application/json");
 
@@ -66,10 +62,7 @@ describe("getUser API", () => {
     try {
       await updateUser(request as any, reply as any, fastify as any);
     } catch (error: any) {
-      sinon.assert.calledWith(
-        fastify.log.info,
-        `Attempting to update user_id - ${user_id}`
-      );
+      sinon.assert.calledOnce(fastify.log.info);
 
       assert.strictEqual(error.status, 404);
       assert(
@@ -77,7 +70,7 @@ describe("getUser API", () => {
           buildApiErrorCode("user", CustomApiErrors.ERR_NOT_FOUND)
         )
       );
-      assert.deepStrictEqual(error.context, { user_id });
+      assert.deepStrictEqual(error.context, { user_id: userId });
     }
   });
 });

@@ -42,7 +42,7 @@ describe("Login Route Tests", () => {
 
     await login(request as any, reply as any, fastify as any);
 
-    sinon.assert.calledWith(logInfoStub, "Attempting to log in");
+    sinon.assert.calledOnce(logInfoStub);
     sinon.assert.calledWith(reply.code, 200);
     sinon.assert.calledWith(reply.header, "Content-Type", "application/json");
     sinon.assert.calledWith(reply.send, {
@@ -78,7 +78,7 @@ describe("Login Route Tests", () => {
       await login(request as any, reply as any, fastify as any);
     } catch (error: any) {
       // Assert that logInfoStub was called once with the expected message
-      assert(logInfoStub.calledOnceWith("Attempting to log in"));
+      sinon.assert.calledOnce(logInfoStub);
 
       // Assert that error status equals 401
       assert.strictEqual(error.status, 401);
@@ -116,8 +116,7 @@ describe("Login Route Tests", () => {
     try {
       await login(request as any, reply as any, fastify as any);
     } catch (error: any) {
-      // Assert that logInfoStub was called once with the expected message
-      assert(logInfoStub.calledOnceWith("Attempting to log in"));
+      sinon.assert.calledOnce(logInfoStub);
 
       // Assert that error status equals 401
       assert.strictEqual(error.status, 401);

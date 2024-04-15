@@ -19,7 +19,7 @@ export const updateUser = async (
 
   const { body } = request as { body: Users };
 
-  log.info(`Attempting to update user_id - ${userId}`);
+  log.info(`Attempting to update userId - ${userId}`);
 
   const usersRepository = db.getRepository(Users);
 
@@ -34,7 +34,7 @@ export const updateUser = async (
     throw new Problem(404, {
       code: buildApiErrorCode("user", CustomApiErrors.ERR_NOT_FOUND),
       context: {
-        userId,
+        user_id: userId,
       },
     });
   }
