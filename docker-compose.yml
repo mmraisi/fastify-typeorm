@@ -42,14 +42,11 @@ services:
   server:
     <<: *env
     build: .
-    working_dir: /app
     command: npm start
     tty: true
     depends_on:
       postgres:
         condition: service_healthy
-    volumes:
-      - ./src:/src
     ports:
       - ${PORT:-4000}:4000
     networks:

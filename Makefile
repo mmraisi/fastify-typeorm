@@ -14,8 +14,8 @@ schema: ## generate schema (spec.json )
 install: ## install all deps
 	@docker compose run --no-deps --rm schema-tools
 	@docker compose run --no-deps --rm schema
+	@npm install --no-fund --no-audit --quiet
 	@docker compose run --no-deps --rm server npm ci --no-fund --no-audit --quiet
-	@npm install
 
 docs: ## start the doc in foreground
 	@docker compose up docs

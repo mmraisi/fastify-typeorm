@@ -5,20 +5,23 @@ FROM node:20-slim
 WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
-COPY package*.json .
+COPY --chown=node:node package*.json .
 
 # Install dependencies
-RUN npm ci
+RUN npm ci --omit=dev
 
 # Copy the rest of the application code to the working directory
-COPY . .
-COPY .env .
+COPY --chown=node:node . .
+COPY --chown=node:node .env .
 
 # Build the TypeScript code
 RUN npm run build
 
 # Expose port 4000 to the outside world
 EXPOSE 4000
+
+# Create a new user and switch to that user
+USER node
 
 # Command to run the application
 CMD ["node", "dist/src/index.js"]
