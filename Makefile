@@ -7,7 +7,6 @@
 
 
 schema: ## generate schema (spec.json )
-	@docker compose run --no-deps --rm schema-tools
 	@docker compose run --no-deps --rm schema sh /scripts/openapi.sh
 
 
