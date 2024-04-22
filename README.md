@@ -34,16 +34,21 @@ Node.js project demonstrating the integration of Fastify, Fastify JWT, and TypeO
 
 To start the server using Docker Compose, make sure you have Docker installed on your machine. Then, navigate to the project directory and run the following command:
 
+> Install all dependencies
+```bash
+make install
+```
+> Run the postgres db in the background
+```bash
+make db
+```
+> Run the application in the foreground
 ```bash
 make start
 ```
-
-> The server will be running on port 8080 by default
-
 To run all tests:
-
 ```bash
-make unit
+make test
 ```
 
 To stop the server and remove the containers, use the following command:
