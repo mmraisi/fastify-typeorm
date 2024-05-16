@@ -8,7 +8,7 @@ WORKDIR /app
 COPY --chown=node:node package*.json .
 
 # Install dependencies
-RUN npm ci --omit=dev
+RUN npm ci
 
 # Copy the rest of the application code to the working directory
 COPY --chown=node:node . .
@@ -16,6 +16,9 @@ COPY --chown=node:node .env .
 
 # Build the TypeScript code
 RUN npm run build
+
+# Set permissions for the /app directory
+RUN chown -R node:node /app && chmod -R 755 /app
 
 # Expose port 4000 to the outside world
 EXPOSE 4000

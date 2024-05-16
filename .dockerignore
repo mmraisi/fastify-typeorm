@@ -1,0 +1,10 @@
+
+# Ignore any files or directories specific to your editor or IDE
+.vscode/
+.idea/
+
+
+coverage
+tmp/
+temp/
+.DS_STORE
